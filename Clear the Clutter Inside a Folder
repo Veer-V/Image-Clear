@@ -1,0 +1,60 @@
+#Create the folder
+import os
+
+# Path to the folder you want to create
+folder_path = "path_to_your_folder"  # Replace with the desired folder path
+
+os.mkdir(folder_path)
+print(f"Folder '{folder_path}' created successfully!")
+
+#image dowloading
+
+import os
+import requests
+
+# URL of the image you want to download
+image_url = "https://example.com/image.png"  # Replace with the image URL
+destination_folder = "path_to_your_folder"  # Replace with the destination folder path
+
+# Create the folder if it doesn't exist
+os.makedirs(destination_folder, exist_ok=True)
+
+# Get the image from the URL
+response = requests.get(image_url)
+
+# Save the image to the folder
+with open(os.path.join(destination_folder, "downloaded_image.png"), "wb") as f:
+    f.write(response.content)
+
+print("Image downloaded and added successfully!")
+
+#image numbering
+
+import os
+
+def clear_clutter_in_folder(folder_path):
+    # List all files in the directory
+    files = os.listdir(folder_path)
+
+    # Filter files by extension
+    extensions = ['.png', '.jpg', '.jpeg', '.gif', '.txt', '.pdf']  # Add more extensions as needed
+    files_to_rename = [file for file in files if any(file.lower().endswith(ext) for ext in extensions)]
+    
+    # Sort files to maintain order of renaming
+    files_to_rename.sort()
+
+    # Rename each file
+    for idx, file in enumerate(files_to_rename, start=1):
+        file_extension = os.path.splitext(file)[1]  # Get the file extension
+        new_name = f"{idx}{file_extension}"
+        old_path = os.path.join(folder_path, file)
+        new_path = os.path.join(folder_path, new_name)
+        
+        # Rename the file
+        os.rename(old_path, new_path)
+        print(f"Renamed '{file}' to '{new_name}'")
+
+if __name__ == "__main__":
+    # Provide the folder path here
+    folder_path = "path_to_your_folder"  # Replace with the folder path
+    clear_clutter_in_folder(folder_path)
