@@ -1,0 +1,35 @@
+# #creating Folder in python 
+import os 
+import requests
+folder = os.mkdir("Image")
+print("Folder created successfully")
+
+image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fcat%2F&psig=AOvVaw3P90XHxpm331DAxMCRgkks&ust=1736438208303000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOirltC-5ooDFQAAAAAdAAAAABAE"
+destination ="Image"
+
+response = requests.get(image)
+with open(os.path.join(destination, "cat.jpg"), "wb") as file:
+     file.write(response.content)
+
+print("Image Dowlaoded and added successfully")
+
+def clean(folder_path):
+    files = os.listdir(folder_path)
+
+    extensions = ['.png', '.jpg', '.jpeg', '.gif', '.txt', '.pdf']
+    rename_files = [file for file in files if any(file.lower().endswith(ext) for ext in extensions)]
+    rename_files.sort()
+
+    for idx, file in enumerate(rename_files, start=1):
+        file_extension = os.path.splitext(file)[1]  # Get the file extension
+        new_name = f"{idx}{file_extension}"
+        old_path = os.path.join(folder_path, file)
+        new_path = os.path.join(folder_path, new_name)
+        
+        os.rename(old_path, new_path)  # Rename the file
+        print(f"Renamed '{file}' to '{new_name}'")
+
+if __name__ == "__main__":
+    # Provide the folder path here
+    folder_path = "Image"  # Replace with your folder path
+    clean(folder_path)
